@@ -1,0 +1,11 @@
+{
+  "_note": "Sample payloads for window.ingest(). Values are illustrative prototype data.",
+  "normal_day": { "soil": 48, "temp": 30, "hum": 60, "rain": 0, "tank": 45, "river": 2, "drain": 15, "clog": 10, "bin": 35, "bat": 65, "hour": 11 },
+  "dry_spell": { "soil": 22, "temp": 37, "hum": 35, "rain": 0, "tank": 40, "river": 1.5, "hour": 13 },
+  "monsoon_flood_risk": { "soil": 80, "temp": 26, "rain": 0.9, "river": 5.5, "drain": 70, "roof": 0.8, "tank": 70, "hour": 16 },
+  "pipe_leak": { "tank": 38, "drop": 0.3, "leak": true, "hour": 9 },
+  "drain_clog": { "drain": 75, "clog": 85, "rain": 0.5, "hour": 15 },
+  "bins_full": { "bin": 95, "methane": 55, "ctemp": 48, "hour": 10 },
+  "night_low_battery": { "bat": 12, "hour": 21, "solar": 0 },
+  "heatwave": { "temp": 42, "soil": 25, "hum": 25, "tank": 30, "hour": 14 }
+}
