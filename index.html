@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NeuroGram AI – Smart Village Ecosystem</title>
+<style>
+:root{--bg:#eef3ef;--card:#fff;--tx:#14261c;--mu:#5b6f63;--bd:#d5e0d8;--gr:#1f7a4a;--bl:#1d6fb8;--am:#d98a00;--rd:#c23b32;--bar:#e3ebe5;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1712;--card:#16231b;--tx:#e6f0ea;--mu:#93a99b;--bd:#27382d;--gr:#46c27f;--bl:#5aa8ec;--am:#f0b13a;--rd:#ef6b61;--bar:#22332a}}
+:root[data-theme="dark"]{--bg:#0e1712;--card:#16231b;--tx:#e6f0ea;--mu:#93a99b;--bd:#27382d;--gr:#46c27f;--bl:#5aa8ec;--am:#f0b13a;--rd:#ef6b61;--bar:#22332a}
+
+/* High Contrast Mode for Low Vision Accessibility */
+:root[data-high-contrast="true"]{--bg:#000000;--card:#0a0a0a;--tx:#ffffff;--mu:#e0e0e0;--bd:#ffffff;--gr:#00ff66;--bl:#33ffff;--am:#ffff00;--rd:#ff3333;--bar:#333333}
+
+/* Large Text Mode for Elderly & Visually Impaired */
+:root[data-font-size="large"]{font-size:18px}
+:root[data-font-size="large"] h1{font-size:26px}
+:root[data-font-size="large"] h2{font-size:20px}
+:root[data-font-size="large"] .st strong{font-size:26px}
+
+/* Dyslexia Friendly Mode */
+:root[data-dyslexia="true"]{font-family:system-ui, -apple-system, sans-serif !important;letter-spacing:0.06em !important;word-spacing:0.12em !important;line-height:1.8 !important}
+
+/* Easy / Simplified Mode for Cognitive & Elder Accessibility */
+body[data-easy-mode="true"] canvas, body[data-easy-mode="true"] .chips{display:none}
+body[data-easy-mode="true"] .st{padding:16px}
+body[data-easy-mode="true"] .st strong{font-size:28px;color:var(--gr)}
+body[data-easy-mode="true"] button{padding:14px 18px;font-size:16px;font-weight:bold}
+
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.45 system-ui,-apple-system,"Segoe UI","Noto Sans",sans-serif;padding-bottom:92px}
+header{padding:16px 14px 6px}
+h1{margin:0;font-size:21px;letter-spacing:-.01em}
+h1 b{color:var(--gr)}
+.sub{color:var(--mu);margin:2px 0 8px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border:1px solid var(--bd);background:var(--card);border-radius:99px;padding:2px 10px;font-size:12px;color:var(--mu)}
+
+/* Accessibility Control Toolbar */
+.a11y-bar{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0;padding:6px;background:var(--card);border:1px solid var(--bd);border-radius:12px}
+.a11y-bar button{flex:1;min-width:75px;min-height:44px;padding:8px 6px;font-size:11px;font-weight:600;border-radius:8px;background:var(--bg);color:var(--tx);border:1px solid var(--bd);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:3px}
+.a11y-bar button.on{background:var(--gr);color:#fff;border-color:var(--gr)}
+
+main{padding:0 12px;max-width:760px;margin:0 auto}
+.pg{display:none}.pg.on{display:block}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px;margin:10px 0}
+h2{font-size:16px;margin:0 0 8px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.st{background:var(--bg);border-radius:10px;padding:10px}
+.st small{display:block;color:var(--mu);font-size:12px}
+.st strong{font-size:22px}
+
+/* Accessibility Progress Bar with Indicator Badge */
+.bar-wrap{display:flex;align-items:center;gap:8px;margin-top:6px}
+.bar{flex:1;height:12px;background:var(--bar);border-radius:99px;overflow:hidden;position:relative}
+.bar i{display:block;height:100%;width:0;background:var(--gr);transition:width .4s}
+.bar.bl i{background:var(--bl)}.bar.am i{background:var(--am)}.bar.rd i{background:var(--rd)}
+.bar-badge{font-size:11px;font-weight:bold;white-space:nowrap}
+
+.row{display:grid;grid-template-columns:100px 1fr 48px;gap:8px;align-items:center;margin:6px 0;font-size:13px}
+.tag{font-size:11px;text-align:center;border-radius:6px;padding:4px 0;background:var(--bar);color:var(--mu);font-weight:bold}
+.tag.on{background:var(--gr);color:#fff}
+canvas{width:100%;height:230px;display:block;background:#0b1510;border-radius:10px}
+.seg{display:flex;border:1px solid var(--bd);border-radius:10px;overflow:hidden;margin:8px 0 4px}
+.seg button{flex:1;border:0;background:var(--card);color:var(--tx);padding:12px;font:inherit;cursor:pointer;min-height:48px}
+.seg button.on{background:var(--gr);color:#fff;font-weight:bold}
+.btns{display:flex;gap:8px;flex-wrap:wrap}
+.btns button,select,input[type="text"]{border:1px solid var(--bd);background:var(--card);color:var(--tx);border-radius:10px;padding:12px;font:inherit;cursor:pointer;min-height:48px}
+.btns button.on{border-color:var(--gr);box-shadow:inset 0 0 0 2px var(--gr)}
+.note{color:var(--mu);font-size:12px;margin:4px 0 0}
+.log{list-style:none;margin:0;padding:0;max-height:340px;overflow:auto}
+.log li{padding:8px 0;border-bottom:1px solid var(--bd);font-size:14px}
+.log li span{color:var(--mu);font-size:12px;margin-right:6px}
+.log li.w{color:var(--rd);font-weight:600}
+
+/* Emergency SOS Banner */
+.sos-btn{width:100%;background:var(--rd);color:#fff;font-weight:bold;font-size:16px;border:none;border-radius:12px;padding:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 12px rgba(194,59,50,0.3)}
+
+/* Schemes & Complaints Cards */
+.scheme-card{border:1px solid var(--bd);border-radius:10px;padding:12px;margin:8px 0;background:var(--bg)}
+.scheme-card h3{margin:0 0 4px;font-size:15px;color:var(--gr)}
+.scheme-card p{margin:0 0 8px;font-size:13px;color:var(--mu)}
+
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--card);border-top:1px solid var(--bd);padding-bottom:env(safe-area-inset-bottom,0px);z-index:5}
+nav button{flex:1;border:0;background:none;color:var(--mu);padding:8px 1px;font:inherit;font-size:9px;cursor:pointer;min-height:48px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+nav button.on{color:var(--gr);font-weight:700}
+.badge{background:var(--rd);color:#fff;border-radius:9px;font-size:10px;padding:0 5px;margin-left:2px}
+
+/* Focus outline accessibility for D-Pad / Keyboard Navigation */
+:focus-visible{outline:3px solid var(--am) !important;outline-offset:2px !important}
+</style>
+</head>
+<body>
+<header>
+<h1><svg width="28" height="28" viewBox="0 0 108 108" style="vertical-align: -5px; margin-right: 8px;"><circle cx="54" cy="54" r="50" fill="#187A3E"/><path d="M54,20 C69,36 69,72 54,88 C39,72 39,36 54,20 Z" fill="#FFFFFF"/><path d="M54,30 L54,78" stroke="#187A3E" stroke-width="3.5" stroke-linecap="round"/><path d="M54,46 L43,39 M54,46 L65,39" stroke="#187A3E" stroke-width="3.2" stroke-linecap="round"/><path d="M54,59 L39,50 M54,59 L69,50" stroke="#187A3E" stroke-width="3.2" stroke-linecap="round"/><circle cx="43" cy="39" r="3.5" fill="#1D6FB8"/><circle cx="65" cy="39" r="3.5" fill="#1D6FB8"/><circle cx="39" cy="50" r="3.5" fill="#1D6FB8"/><circle cx="69" cy="50" r="3.5" fill="#1D6FB8"/></svg>Neuro<b>Gram</b> AI</h1>
+<p class="sub">Smart Village Ecosystem: Farm, Water, Harvesting, Drainage, Energy, Waste, Complaints & Schemes.</p>
+<div class="chips"><span class="chip">Works offline</span><span class="chip">Simulated sensors</span><span class="chip" id="clock">Day 1, 11:00</span></div>
+
+<!-- Accessibility Tools Toolbar -->
+<div class="a11y-bar" aria-label="Accessibility options">
+<button id="btn_speak_screen" onclick="readScreen()" aria-label="Read active screen aloud">🔊 Read Screen</button>
+<button id="btn_voice_cmd" onclick="listenVoice()" aria-label="Speak a voice command">🎤 Voice Command</button>
+<button id="btn_repeat" onclick="repeatLastAlert()" aria-label="Repeat last voice alert">🔁 Repeat</button>
+<button id="btn_contrast" onclick="toggleHighContrast()" aria-label="Toggle high contrast colors">👁️ Contrast</button>
+<button id="btn_font" onclick="toggleLargeText()" aria-label="Toggle large font size">🔍 Large Text</button>
+<button id="btn_dyslexia" onclick="toggleDyslexia()" aria-label="Toggle dyslexia friendly font">📖 Dyslexia</button>
+<button id="btn_easy" onclick="toggleEasyMode()" aria-label="Toggle easy simplified view">♿ Easy</button>
+</div>
+</header>
+<main>
+<div id="sr_announcer" class="sr-only" aria-live="polite" style="position:absolute;left:-9999px;top:-9999px"></div>
+
+<section class="pg on" id="home">
+<div class="card">
+<button class="sos-btn" onclick="triggerSOS()" aria-label="Emergency SOS button">🚨 EMERGENCY SOS / DISASTER ALERT</button>
+</div>
+
+<div class="card"><h2>AI brain activity</h2>
+<canvas id="ras" aria-label="Neural network spiking raster plot. Top 16 rows are sensor neurons, bottom 14 are decision neurons."></canvas>
+<p class="note">Top 16 rows are sensor neurons, bottom 14 are decision neurons. Each dot is a spike. Silent neurons use almost no power.</p></div>
+<div class="card"><h2>AI decisions</h2><div id="outs"></div></div>
+<div class="grid">
+<div class="st"><small>Spikes per second</small><strong id="sps">0</strong></div>
+<div class="st"><small>Compute saved vs always-on</small><strong id="sav">0%</strong></div></div>
+<div class="card"><h2>Try a situation</h2>
+<div class="btns" id="sc"><button data-s="normal" class="on" aria-label="Situation normal">Normal</button><button data-s="dry" aria-label="Situation dry spell">Dry spell</button><button data-s="rain" aria-label="Situation heavy rain">Heavy rain</button><button data-s="harvest" aria-label="Situation monsoon harvest">Monsoon harvest</button><button data-s="leak" aria-label="Situation pipe leak">Pipe leak</button><button data-s="storm" aria-label="Situation storm drain overflow">Storm drain</button><button data-s="clog" aria-label="Situation drain clogging">Drain clog</button><button data-s="binfull" aria-label="Situation bins full">Bins full</button><button data-s="heatwave" aria-label="Situation heatwave disaster">Heatwave</button></div>
+<p class="note">Watch the AI react: irrigation, tank pump, sluice gates, aquifer recharge, flood alert, leak alert, bin pickup and disaster siren switch by themselves.</p></div>
+</section>
+
+<section class="pg" id="farm">
+<div class="grid">
+<div class="st"><small>Soil moisture</small><strong id="v_soil"></strong><div class="bar-wrap"><div class="bar" role="progressbar" id="p_soil" aria-valuemin="0" aria-valuemax="100"><i id="b_soil"></i></div><span class="bar-badge" id="g_soil"></span></div></div>
+<div class="st"><small>Temperature</small><strong id="v_temp"></strong></div>
+<div class="st"><small>Humidity</small><strong id="v_hum"></strong></div>
+<div class="st"><small>Rainfall</small><strong id="v_rain"></strong></div></div>
+<div class="card"><h2>Crop & Weather Advisory</h2><select id="crop" aria-label="Select target crop"><option>Tomato</option><option>Rice</option><option>Wheat</option><option>Millet</option></select>
+<p class="note" id="tgt"></p>
+<p class="note" style="color:var(--gr);font-weight:bold;margin-top:6px">🌾 Advisory: Optimal sowing window active. Ensure soil moisture is maintained at target.</p></div>
+<div class="card"><h2>Irrigation valve and pump</h2><div class="seg" data-k="irr"></div><p class="note" id="s_irr"></p></div>
+</section>
+
+<section class="pg" id="water">
+<div class="card"><h2>Village water tank</h2><strong style="font-size:26px" id="v_tank"></strong><div class="bar-wrap"><div class="bar bl" role="progressbar" id="p_tank" aria-valuemin="0" aria-valuemax="100"><i id="b_tank"></i></div><span class="bar-badge" id="g_tank"></span></div>
+<p class="note" id="s_leak"></p></div>
+<div class="grid"><div class="st"><small>River level</small><strong id="v_river"></strong><div class="bar-wrap"><div class="bar am" role="progressbar" id="p_river" aria-valuemin="0" aria-valuemax="100"><i id="b_river"></i></div><span class="bar-badge" id="g_river"></span></div></div>
+<div class="st"><small>Pipeline</small><strong id="v_pipe"></strong></div></div>
+<div class="card"><h2>Tank filling pump</h2><div class="seg" data-k="pump"></div><p class="note" id="s_pump"></p></div>
+</section>
+
+<section class="pg" id="harvesting">
+<div class="grid">
+<div class="st"><small>Rooftop catchment rate</small><strong id="v_roof"></strong></div>
+<div class="st"><small>Community farm pond</small><strong id="v_pond"></strong><div class="bar-wrap"><div class="bar bl" role="progressbar" id="p_pond" aria-valuemin="0" aria-valuemax="100"><i id="b_pond"></i></div><span class="bar-badge" id="g_pond"></span></div></div>
+<div class="st"><small>Groundwater table depth</small><strong id="v_aquifer"></strong></div>
+<div class="st"><small>Season water saved</small><strong id="v_saved_water"></strong></div></div>
+<div class="card"><h2>Aquifer Recharge & Pond Diversion Valve</h2><div class="seg" data-k="recharge"></div><p class="note" id="s_recharge"></p></div>
+<div class="card"><h2>Sand & Gravel Filtration Status</h2>
+<p class="note" style="color:var(--gr);font-weight:bold">✔ Sand bed filtration efficiency: 96% Clean. Filtered rainwater is safe for aquifer injection and farm ponds.</p></div>
+</section>
+
+<section class="pg" id="drainage">
+<div class="grid">
+<div class="st"><small>Drain water level</small><strong id="v_drain"></strong><div class="bar-wrap"><div class="bar rd" role="progressbar" id="p_drain" aria-valuemin="0" aria-valuemax="100"><i id="b_drain"></i></div><span class="bar-badge" id="g_drain"></span></div></div>
+<div class="st"><small>Channel clogging</small><strong id="v_clog"></strong><div class="bar-wrap"><div class="bar am" role="progressbar" id="p_clog" aria-valuemin="0" aria-valuemax="100"><i id="b_clog"></i></div><span class="bar-badge" id="g_clog"></span></div></div>
+<div class="st"><small>Surface runoff</small><strong id="v_off"></strong></div>
+<div class="st"><small>Water harvested</small><strong id="v_div"></strong></div></div>
+<div class="card"><h2>Smart sluice gate & drainage pump</h2><div class="seg" data-k="drain"></div><p class="note" id="s_drain"></p></div>
+<div class="card"><h2>Eco-drainage & Water harvesting</h2>
+<p class="note">Excess storm runoff is automatically redirected to community farm ponds to recharge groundwater and prevent village waterlogging.</p></div>
+</section>
+
+<section class="pg" id="energy">
+<div class="grid"><div class="st"><small>Solar power</small><strong id="v_sol"></strong></div>
+<div class="st"><small>Village load</small><strong id="v_load"></strong></div></div>
+<div class="card"><h2>Battery</h2><strong style="font-size:26px" id="v_bat"></strong><div class="bar-wrap"><div class="bar" role="progressbar" id="p_bat" aria-valuemin="0" aria-valuemax="100"><i id="b_bat"></i></div><span class="bar-badge" id="g_bat"></span></div><p class="note" id="s_sav"></p></div>
+<div class="card"><h2>Streetlights</h2><div class="seg" data-k="light"></div><p class="note" id="s_light"></p></div>
+</section>
+
+<section class="pg" id="waste">
+<div class="grid">
+<div class="st"><small>Community bins fill level</small><strong id="v_bin"></strong><div class="bar-wrap"><div class="bar am" role="progressbar" id="p_bin" aria-valuemin="0" aria-valuemax="100"><i id="b_bin"></i></div><span class="bar-badge" id="g_bin"></span></div></div>
+<div class="st"><small>Methane & Odor level</small><strong id="v_methane"></strong><div class="bar-wrap"><div class="bar rd" role="progressbar" id="p_methane" aria-valuemin="0" aria-valuemax="100"><i id="b_methane"></i></div><span class="bar-badge" id="g_methane"></span></div></div>
+<div class="st"><small>Compost digester temp</small><strong id="v_ctemp"></strong></div>
+<div class="st"><small>Biogas clean energy</small><strong id="v_biogas"></strong></div></div>
+<div class="card"><h2>Compost mixer & Biogas aerator</h2><div class="seg" data-k="compost"></div><p class="note" id="s_compost"></p></div>
+<div class="card"><h2>Circular Economy & Organic Fertilizer</h2>
+<p class="note">Village organic waste is processed in aerobic digesters to generate clean cooking gas and rich organic bio-fertilizer for local crops.</p></div>
+</section>
+
+<section class="pg" id="grievance">
+<div class="card"><h2>Report a Village Issue</h2>
+<select id="g_cat" aria-label="Select grievance category"><option>🚰 Water & Pipeline Leak</option><option>🚜 Farm & Irrigation Pump</option><option>⚡ Power & Streetlight Fault</option><option>🌊 Drainage & Flood Hazard</option><option>🗑️ Waste & Bin Overflow</option><option>🛣️ Road & Infrastructure</option></select>
+<input type="text" id="g_text" placeholder="Describe the issue (or speak)..." style="width:100%;margin:8px 0" aria-label="Issue description">
+<button onclick="submitGrievance()" style="width:100%;background:var(--gr);color:#fff;font-weight:bold" aria-label="Submit complaint button">📩 Submit Grievance to Gram Panchayat</button>
+</div>
+<div class="card"><h2>Active Complaints Tracker</h2>
+<ul class="log" id="grievance_list" aria-label="List of active grievances">
+<li><span>Ticket #102</span>🚰 Pipeline Leak near North Tank · <strong style="color:var(--am)">Assigned to Panchayat Technician</strong></li>
+<li><span>Ticket #101</span>⚡ Streetlight bulb outage at West Gate · <strong style="color:var(--gr)">Resolved</strong></li>
+</ul>
+</div>
+</section>
+
+<section class="pg" id="schemes">
+<div class="card"><h2>Government Schemes Finder</h2>
+<p class="note">Offline eligibility guide for government welfare programs for villagers.</p>
+<select id="sch_profile" onchange="filterSchemes()" aria-label="Select beneficiary profile">
+<option value="farmer">Small & Marginal Farmer</option>
+<option value="woman">Woman / Self-Help Group (SHG) Member</option>
+<option value="senior">Senior Citizen / Healthcare</option>
+<option value="youth">Youth / Student / Skill Training</option>
+</select>
+</div>
+
+<div id="schemes_container">
+<div class="scheme-card">
+<h3>🌾 PM-KISAN Samman Nidhi</h3>
+<p>Direct income support of ₹6,000/year in 3 installments for eligible landholding farmer families.</p>
+<button onclick="speakRaw('PM-KISAN provides 6000 rupees per year for farmers. Apply at Gram Panchayat with Aadhaar and land records.')" aria-label="How to apply PM KISAN">🔊 How to Apply</button>
+</div>
+<div class="scheme-card">
+<h3>🚰 Jal Jeevan Mission</h3>
+<p>Free functional household tap connection providing safe drinking water to every rural home.</p>
+<button onclick="speakRaw('Jal Jeevan Mission provides free tap water connection to rural homes. Contact Sarpanch or Water Committee.')" aria-label="How to apply Jal Jeevan Mission">🔊 How to Apply</button>
+</div>
+<div class="scheme-card">
+<h3>🛡️ PM Fasal Bima Yojana</h3>
+<p>Comprehensive crop insurance coverage against drought, flood, and pest damage at minimal premium.</p>
+<button onclick="speakRaw('PM Fasal Bima Yojana covers crop failure due to rain or drought. Register at CSC or local bank before sowing season.')" aria-label="How to apply Fasal Bima Yojana">🔊 How to Apply</button>
+</div>
+</div>
+</section>
+
+<section class="pg" id="alerts">
+<div class="card"><h2>Voice & Accessibility alerts</h2>
+<div class="btns"><select id="lang" aria-label="Select voice language"><option value="en-IN">English</option><option value="hi-IN">हिन्दी</option><option value="ta-IN">தமிழ்</option><option value="te-IN">తెలుగు</option></select>
+<label style="display:flex;align-items:center;gap:6px"><input type="checkbox" id="voice" checked aria-label="Enable voice announcements"> Speak alerts aloud</label></div>
+<p class="note">Alerts are spoken in the chosen language, so everyone in the village can understand them.</p></div>
+<div class="card"><h2>Activity log</h2><ul class="log" id="log" aria-label="System activity log"></ul></div>
+</section>
+</main>
+
+<nav id="nav" aria-label="Main navigation">
+<button data-p="home" class="on" aria-current="page" aria-label="AI Brain page">AI brain</button>
+<button data-p="farm" aria-label="Farm page">Farm</button>
+<button data-p="water" aria-label="Water page">Water</button>
+<button data-p="harvesting" aria-label="Harvesting page">Harvest</button>
+<button data-p="drainage" aria-label="Drainage page">Drainage</button>
+<button data-p="energy" aria-label="Energy page">Energy</button>
+<button data-p="waste" aria-label="Waste page">Waste</button>
+<button data-p="grievance" aria-label="Grievance page">Grievance</button>
+<button data-p="schemes" aria-label="Schemes page">Schemes</button>
+<button data-p="alerts" aria-label="Alerts page">Alerts<span class="badge" id="bd" hidden>0</span></button>
+</nav>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const clamp=(x,a,b)=>Math.min(b,Math.max(a,x)),rnd=a=>(Math.random()-.5)*2*a;
+const CROPS={Tomato:55,Rice:70,Wheat:45,Millet:35};
+let crop="Tomato", lastSpokenAlert="", ticketCount=103;
+
+// Sensor state. Replace the simulator with real ESP32 data by calling ingest({soil:..,temp:..,tank:..})
+const S={soil:42,temp:30,hum:60,rain:0,tank:45,river:2,roof:0,pond:40,aquifer:12.4,saved_water:125000,drain:15,clog:10,off:0,solar:0,bat:65,bin:35,methane:15,ctemp:42,biogas:450,disaster:0,grievance:0,hour:11,leak:false,sc:"normal",drop:0,live:false};
+window.ingest=o=>{S.live=true;Object.assign(S,o)};
+
+const IN=["Soil dry","Heat","Rain","Tank low","River high","Dark","Battery low","Leak signal","Drain high","Drain clogged","Bin full","Methane high","Disaster risk","Grievance pending","Rooftop high","Pond low"];
+const OUT=["Irrigate","Fill tank","Flood alert","Lights on","Save energy","Leak alert","Open drain","Clog alert","Bin pickup","Mix compost","Disaster siren","Dispatch officer","Recharge aquifer","Fill pond"];
+
+// Synaptic weights: rows = decision neurons (14), columns = sensor neurons (16)
+const W=[
+  [1.2, .3, -2, -.8, 0, 0, -.5, 0, 0, 0, 0, 0, 0, 0, 0, 0],      // Irrigate
+  [0, 0, 0, 1.3, -.2, 0, -.9, 0, 0, 0, 0, 0, 0, 0, 0, 0],        // Fill tank
+  [0, 0, .6, 0, 1.4, 0, 0, 0, 1.2, 0, 0, 0, 1.5, 0, 0, 0],       // Flood alert
+  [0, 0, 0, 0, 0, 1.5, -.4, 0, 0, 0, 0, 0, 0, 0, 0, 0],          // Lights on
+  [0, 0, 0, 0, 0, 0, 1.4, 0, 0, 0, 0, 0, 0, 0, 0, 0],            // Save energy
+  [0, 0, 0, .2, 0, 0, 0, 1.5, 0, 0, 0, 0, 0, 0, 0, 0],           // Leak alert
+  [0, 0, .8, 0, .5, 0, 0, 0, 1.5, .3, 0, 0, 1.0, 0, 0, 0],       // Open drain / sluice gate
+  [0, 0, 0, 0, 0, 0, 0, 0, .6, 1.6, 0, 0, 0, 0, 0, 0],            // Clog alert
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1.5, .6, 0, 0, 0, 0],           // Bin pickup alert
+  [0, 0, 0, 0, 0, 0, -.3, 0, 0, 0, .2, 1.4, 0, 0, 0, 0],          // Mix compost / aerate
+  [0, 0, 0, 0, 1.0, 0, 0, 0, 1.0, 0, 0, 0, 1.8, 0, 0, 0],        // Disaster siren
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, .8, 1.6, 0, 0],            // Dispatch officer
+  [0, 0, .8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1.6, -.4],          // Recharge aquifer
+  [0, 0, .6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, .8, 1.4]           // Fill farm pond
+];
+let v=OUT.map(()=>0),win=OUT.map(()=>[]),on=OUT.map(()=>false),rate=OUT.map(()=>0),ras=[],spikes=0,steps=0,sps=0,day=1,unread=0;
+const M={irr:null,pump:null,light:null,drain:null,compost:null,recharge:null}; // manual override: null = AI decides
+const act={irr:false,pump:false,light:false,sav:false,drain:false,compost:false,recharge:false};
+
+const MSG={
+flood:{
+ "en-IN":"Flood warning! River level is rising rapidly. Please move to higher ground.",
+ "hi-IN":"बाढ़ की चेतावनी! नदी का जलस्तर बढ़ रहा है। कृपया सुरक्षित ऊँचे स्थान पर जाएँ।",
+ "ta-IN":"வெள்ள எச்சரிக்கை! ஆற்று நீர்மட்டம் வேகமாக உயர்கிறது. பாதுகாப்பான மேடான இடத்திற்குச் செல்லவும்.",
+ "te-IN":"వరద హెచ్చరిక! నది నీటిమట్టం వేగంగా పెరుగుతోంది. సురక్షితమైన ఎత్తైన ప్రదేశానికి వెళ్ళండి."
+},
+leak:{
+ "en-IN":"Water leak detected in the pipeline. Please inspect the main tank valve.",
+ "hi-IN":"पाइपलाइन में पानी का रिसाव मिला है। कृपया मुख्य टैंक वॉल्व का निरीक्षण करें।",
+ "ta-IN":"குழாயில் நீர் கசிவு கண்டறியப்பட்டது. பிரதான தொட்டி வால்வைச் சரிபார்க்கவும்.",
+ "te-IN":"పైపులైనులో నీటి లీకేజీ గుర్తించబడింది. దయచేసి ప్రధాన ట్యాంక్ కవాటాన్ని పరిశీలించండి."
+},
+irr:{
+ "en-IN":"Soil is dry. Automatic irrigation started.",
+ "hi-IN":"मिट्टी सूखी है। स्वचालित सिंचाई शुरू हो गई है।",
+ "ta-IN":"மண் வறண்டுள்ளது. தானியங்கி நீர்ப்பாசனம் தொடங்கியது.",
+ "te-IN":"నేల పొడిగా ఉంది. స్వయంచాలక నీటిపారుదల ప్రారంభమైంది."
+},
+drain:{
+ "en-IN":"High water level in village drainage channels. Sluice gates opened.",
+ "hi-IN":"ग्राम जल निकासी नालियों में जलभराव है। ड्रेनेज गेट खोल दिए गए हैं।",
+ "ta-IN":"வடிகால் நீர்மட்டம் அதிகமாக உள்ளது. வடிகால் கதவுகள் திறக்கப்பட்டன.",
+ "te-IN":"గ్రామ డ్రైనేజీ కాలువల్లో నీటిమట్టం ఎక్కువ. గేట్లు తెరవబడ్డాయి."
+},
+harvest:{
+ "en-IN":"Monsoon rainwater harvesting active! Filtered rainwater is recharging village aquifer wells.",
+ "hi-IN":"वर्षा जल संचयन सक्रिय! फ़िल्टर किया गया पानी भूजल को पुनर्भरण कर रहा है।",
+ "ta-IN":"மழைநீர் சேகரிப்பு இயங்குகிறது! நிலத்தடி நீர் கிணறுகள் செறிவூட்டப்படுகின்றன.",
+ "te-IN":"వర్షపు నీటి సేకరణ ప్రారంభమైంది! భూగర్భ జలాలు పునరుద్ధరించబడుతున్నాయి."
+},
+clog:{
+ "en-IN":"Drainage channel blockage detected. Cleaning required immediately.",
+ "hi-IN":"ड्रेनेज नाली में रुकावट पाई गई है। तुरंत सफाई आवश्यक है।",
+ "ta-IN":"வடிகாலில் அடைப்பு கண்டறியப்பட்டது. உடனடியாக சுத்தம் செய்யவும்.",
+ "te-IN":"డ్రైనేజీ కాలువలో అడ్డంకి గుర్తించబడింది. వెంటనే శుభ్రపరచడం అవసరం."
+},
+bin:{
+ "en-IN":"Community waste bins are full. Collection vehicle dispatched.",
+ "hi-IN":"सामुदायिक कूड़ादान भर गया है। सफाई पिकअप गाड़ी भेजी गई।",
+ "ta-IN":"சமுதாயக் குப்பைத் தொட்டி நிரம்பியது. சேகரிப்பு வாகனம் அனுப்பப்பட்டது.",
+ "te-IN":"సామాజిక చెత్త తొట్టి నిండిపోయింది. సేకరణ వాహనం పంపబడింది."
+},
+methane:{
+ "en-IN":"High methane level detected in digester. Biogas compost aeration started.",
+ "hi-IN":"बायोगैस डाइजेस्टर में मीथेन का स्तर अधिक है। कम्पोस्ट वातन शुरू।",
+ "ta-IN":"மீத்தேன் வாயு அளவு அதிகம். காற்று செலுத்துதல் தொடங்கியது.",
+ "te-IN":"బయోగాస్ దిశలో మీథేన్ అనిల ప్రమాణం ఎక్కువగా ఉంది. ఏరేషన్ ప్రారంభమైంది."
+},
+sos:{
+ "en-IN":"Emergency SOS alert activated! Broadcasting live location and alerting Gram Panchayat.",
+ "hi-IN":"आपातकालीन एसओएस अलर्ट सक्रिय! ग्राम पंचायत को संदेश भेजा गया।",
+ "ta-IN":"அவசர SOS எச்சரிக்கை இயக்கப்பட்டது! கிராம பஞ்சாயத்துக்குத் தகவல் அனுப்பப்பட்டது.",
+ "te-IN":"అత్యవసర SOS హెచ్చరిక యాక్టివేట్ చేయబడింది! గ్రామ పంచాయతీకి సమాచారం పంపబడింది."
+}
+};
+
+// Acoustic & Haptic Vibration Feedback Synthesizer
+let audioCtx=null, soundEnabled=true;
+function triggerVibration(type){
+ if(window.AndroidTTS&&AndroidTTS.vibrate){
+  try{AndroidTTS.vibrate(type);return;}catch(e){}
+ }
+ if(navigator.vibrate){
+  if(type==="alert")navigator.vibrate([0,150,80,150,80,300]);
+  else if(type==="warning")navigator.vibrate([0,200,100,200]);
+  else navigator.vibrate([0,40]);
+ }
+}
+
+function playChime(type){
+ triggerVibration(type);
+ if(!soundEnabled)return;
+ try{
+  if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+  const osc=audioCtx.createOscillator(),gain=audioCtx.createGain();
+  osc.connect(gain);gain.connect(audioCtx.destination);
+  const now=audioCtx.currentTime;
+  if(type==="on"){
+   osc.frequency.setValueAtTime(440,now);osc.frequency.exponentialRampToValueAtTime(880,now+0.12);
+   gain.gain.setValueAtTime(0.12,now);gain.gain.exponentialRampToValueAtTime(0.01,now+0.12);
+   osc.start(now);osc.stop(now+0.12);
+  }else if(type==="off"){
+   osc.frequency.setValueAtTime(660,now);osc.frequency.exponentialRampToValueAtTime(330,now+0.12);
+   gain.gain.setValueAtTime(0.12,now);gain.gain.exponentialRampToValueAtTime(0.01,now+0.12);
+   osc.start(now);osc.stop(now+0.12);
+  }else if(type==="alert"){
+   osc.type="sawtooth";osc.frequency.setValueAtTime(880,now);osc.frequency.setValueAtTime(440,now+0.1);
+   gain.gain.setValueAtTime(0.2,now);gain.gain.exponentialRampToValueAtTime(0.01,now+0.2);
+   osc.start(now);osc.stop(now+0.2);
+  }
+ }catch(e){}
+}
+
+function speakRaw(text){
+ lastSpokenAlert=text;
+ const l=$("#lang").value;
+ if(window.AndroidTTS){try{AndroidTTS.speak(text,l)}catch(e){}return}
+ if(!window.speechSynthesis)return;
+ try{const u=new SpeechSynthesisUtterance(text);u.lang=l;speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}
+}
+
+function repeatLastAlert(){
+ playChime("on");
+ if(lastSpokenAlert){
+  speakRaw(lastSpokenAlert);
+ }else{
+  readScreen();
+ }
+}
+
+function speak(k){if(!$("#voice").checked)return;playChime("alert");const l=$("#lang").value;speakRaw(MSG[k][l]);}
+
+function triggerSOS(){
+ playChime("alert");
+ log("EMERGENCY SOS Triggered! Location broadcasted to Gram Panchayat.", true, "sos");
+ alert("🚨 EMERGENCY SOS BROADCAST SENT!\n\nYour location has been logged and sent to Gram Panchayat Officers and Emergency Responders.");
+}
+
+function announceSR(msg){
+ const el=$("#sr_announcer");
+ if(el){el.textContent=msg;}
+}
+
+function clock(){const h=Math.floor(S.hour),m=Math.floor((S.hour-h)*60);return"Day "+day+", "+String(h).padStart(2,"0")+":"+String(m).padStart(2,"0")}
+function log(msg,warn,k){
+ const li=document.createElement("li");if(warn)li.className="w";li.innerHTML="<span>"+clock()+"</span>"+msg;
+ $("#log").prepend(li);
+ announceSR(msg);
+ if(warn&&!$("#alerts").classList.contains("on")){unread++;$("#bd").hidden=false;$("#bd").textContent=unread}
+ if(k)speak(k);
+}
+
+function edge(j,up){
+ playChime(up?"on":"off");
+ if(j==0)log(up?"Soil is dry. Irrigation started by AI.":"Soil is wet enough. Irrigation stopped.",false,up?"irr":0);
+ if(j==1)log(up?"Tank is low. Filling pump started.":"Tank filled. Pump stopped.");
+ if(j==2&&up)log("Flood warning: river level is rising rapidly.",true,"flood");
+ if(j==4)log(up?"Battery low. Energy saver on.":"Battery recovered. Energy saver off.");
+ if(j==5&&up)log("Leak detected: pipeline losing water.",true,"leak");
+ if(j==6)log(up?"High drainage water logging. Sluice gate opened by AI.":"Drainage level normal. Sluice gate closed.",false,up?"drain":0);
+ if(j==7&&up)log("Drainage blockage detected! Channel clearance required.",true,"clog");
+ if(j==8&&up)log("Community waste bins full! Collection vehicle dispatched.",true,"bin");
+ if(j==9)log(up?"High methane in digester. Compost aerator started.":"Digester stabilized. Aerator paused.",false,up?"methane":0);
+ if(j==10&&up)log("DISASTER RISK HIGH! Emergency siren activated.",true,"sos");
+ if(j==11&&up)log("Pending grievances detected! Panchayat officer dispatched.",false);
+ if(j==12&&up)log("Rooftop rainwater harvesting active! Aquifer recharge valve opened.",false,"harvest");
+ if(j==13&&up)log("Farm pond low! Diverting rainwater runoff into community pond.",false);
+}
+
+// Accessibility Features
+let isHighContrast=false, isLargeText=false, isDyslexia=false, isEasyMode=false;
+function toggleHighContrast(){
+ isHighContrast=!isHighContrast;
+ document.documentElement.setAttribute("data-high-contrast", isHighContrast?"true":"false");
+ $("#btn_contrast").classList.toggle("on", isHighContrast);
+ playChime("on");
+ announceSR(isHighContrast?"High contrast enabled":"High contrast disabled");
+}
+function toggleLargeText(){
+ isLargeText=!isLargeText;
+ document.documentElement.setAttribute("data-font-size", isLargeText?"large":"normal");
+ $("#btn_font").classList.toggle("on", isLargeText);
+ playChime("on");
+ announceSR(isLargeText?"Large text enabled":"Large text disabled");
+}
+function toggleDyslexia(){
+ isDyslexia=!isDyslexia;
+ document.documentElement.setAttribute("data-dyslexia", isDyslexia?"true":"false");
+ $("#btn_dyslexia").classList.toggle("on", isDyslexia);
+ playChime("on");
+ announceSR(isDyslexia?"Dyslexia friendly font enabled":"Dyslexia font disabled");
+}
+function toggleEasyMode(){
+ isEasyMode=!isEasyMode;
+ document.body.setAttribute("data-easy-mode", isEasyMode?"true":"false");
+ $("#btn_easy").classList.toggle("on", isEasyMode);
+ playChime("on");
+ announceSR(isEasyMode?"Easy mode enabled":"Easy mode disabled");
+}
+
+function readScreen(){
+ playChime("on");
+ const activePg=$(".pg.on")?.id||"home";
+ const l=$("#lang").value;
+ let txt="";
+ const activeCount=on.filter(x=>x).length;
+ const activeNames=OUT.filter((_,j)=>on[j]).join(", ") || "None";
+
+ if(activePg==="home"){
+  txt=l==="hi-IN"?"एआई ब्रेन सारांश। प्रति सेकंड "+sps+" स्पाइक्स हैं। सक्रिय निर्णय: "+(activeNames||"कोई नहीं")+"।" :
+      l==="ta-IN"?"செயற்கை நுண்ணறிவு சுருக்கம். செயல்படும் முடிவுகள்: "+(activeNames||"எதுவுமில்லை")+"." :
+      l==="te-IN"?"ఏఐ బ్రెయిన్ సారాంశం. క్రియాశీల నిర్ణయాలు: "+(activeNames||"ఏవీ లేవు")+"." :
+      "AI Brain summary. Spikes per second is "+sps+". Compute saved is "+Math.round((1-spikes/(steps*30||1))*100)+" percent. Currently "+activeCount+" decision neurons active: "+activeNames+".";
+ }else if(activePg==="farm"){
+  txt=l==="hi-IN"?"फार्म स्थिति। मिट्टी की नमी "+Math.round(S.soil)+" प्रतिशत है। सिंचाई "+(act.irr?"चालू":"बंद")+" है। तापमान "+S.temp.toFixed(1)+" डिग्री है।" :
+      l==="ta-IN"?"பண்ணை நிலைமை. மண் ஈரம் "+Math.round(S.soil)+" சதவீதம். நீர்ப்பாசனம் "+(act.irr?"இயக்கத்தில் உள்ளது":"நிறுத்தப்பட்டது")+"." :
+      l==="te-IN"?"ఫార్మ్ నివేదిక. నేల తేమ "+Math.round(S.soil)+" శాతం. నీటిపారుదల "+(act.irr?"ప్రారంభమైంది":"ఆగిపోయింది")+"." :
+      "Farm status. Soil moisture is "+Math.round(S.soil)+" percent. Target for "+crop+" is "+CROPS[crop]+" percent. Irrigation valve is "+(act.irr?"OPEN":"CLOSED")+". Temperature is "+S.temp.toFixed(1)+" degrees Celsius.";
+ }else if(activePg==="water"){
+  txt=l==="hi-IN"?"पानी टंकी की स्थिति "+Math.round(S.tank)+" प्रतिशत है। भरने वाला पंप "+(act.pump?"चालू":"बंद")+" है। नदी जलस्तर "+S.river.toFixed(1)+" मीटर है।" :
+      l==="ta-IN"?"நீர் தொட்டி நிலை "+Math.round(S.tank)+" சதவீதம். பம்பு "+(act.pump?"இயக்கத்தில் உள்ளது":"நிறுத்தப்பட்டது")+"." :
+      l==="te-IN"?"నీటి ట్యాంక్ "+Math.round(S.tank)+" శాతం నిండింది. పంపు "+(act.pump?"ప్రారంభమైంది":"ఆగిపోయింది")+"." :
+      "Water tank level is "+Math.round(S.tank)+" percent. Tank filling pump is "+(act.pump?"ON":"OFF")+". River level is "+S.river.toFixed(1)+" meters.";
+ }else if(activePg==="harvesting"){
+  txt="Rainwater harvesting status. Community farm pond is "+Math.round(S.pond)+" percent full. Aquifer depth is "+S.aquifer.toFixed(1)+" meters. Recharge valve is "+(act.recharge?"OPEN":"CLOSED")+". Total water saved this season: "+S.saved_water.toLocaleString()+" Liters.";
+ }else if(activePg==="drainage"){
+  txt=l==="hi-IN"?"ड्रेनेज स्थिति। जलस्तर "+Math.round(S.drain)+" प्रतिशत है। ड्रेनेज रुकावट "+Math.round(S.clog)+" प्रतिशत है। ड्रेनेज गेट "+(act.drain?"खुला":"बंद")+" है।" :
+      l==="ta-IN"?"வடிகால் நிலைமை. நீர்மட்டம் "+Math.round(S.drain)+" சதவீதம். வடிகால் கதவுகள் "+(act.drain?"திறக்கப்பட்டுள்ளன":"மூடப்பட்டுள்ளன")+"." :
+      l==="te-IN"?"డ్రైనేజీ నివేదిక. నీటిమట్టం "+Math.round(S.drain)+" శాతం. గేట్లు "+(act.drain?"తెరవబడ్డాయి":"మూయబడ్డాయి")+"." :
+      "Drainage status. Water level is "+Math.round(S.drain)+" percent. Channel clogging is "+Math.round(S.clog)+" percent. Sluice gate is "+(act.drain?"OPEN":"CLOSED")+".";
+ }else if(activePg==="energy"){
+  txt=l==="hi-IN"?"ऊर्जा स्थिति। बैटरी चार्ज "+Math.round(S.bat)+" प्रतिशत है। सौर उत्पादन "+Math.round(S.solar)+" वाट है।" :
+      l==="ta-IN"?"மின்சார நிலைமை. பேட்டரி "+Math.round(S.bat)+" சதவீதம்." :
+      l==="te-IN"?"శక్తి నివేదిక. బ్యాటరీ "+Math.round(S.bat)+" శాతం ఉంది." :
+      "Energy status. Battery charge is "+Math.round(S.bat)+" percent. Solar power generation is "+Math.round(S.solar)+" watts. Streetlights are "+(act.light?"ON":"OFF")+".";
+ }else if(activePg==="waste"){
+  txt=l==="hi-IN"?"कचरा प्रबंधन स्थिति। कूड़ादान "+Math.round(S.bin)+" प्रतिशत भरा है। मीथेन "+Math.round(S.methane)+" प्रतिशत है।" :
+      l==="ta-IN"?"கழிவு மேலாண்மை நிலை. குப்பைத் தொட்டி "+Math.round(S.bin)+" சதவீதம்." :
+      l==="te-IN"?"చెత్త నిర్వహణ. తొట్టి "+Math.round(S.bin)+" శాతం నిండింది." :
+      "Waste management status. Community bins are "+Math.round(S.bin)+" percent full. Methane level is "+Math.round(S.methane)+" percent. Compost aerator is "+(act.compost?"ACTIVE":"STANDBY")+".";
+ }else if(activePg==="grievance"){
+  txt="Grievance and complaint tracker. Select a category and describe the issue to submit to Gram Panchayat.";
+ }else if(activePg==="schemes"){
+  txt="Government schemes finder. PM-KISAN, Jal Jeevan Mission, and PM Fasal Bima Yojana available.";
+ }else{
+  txt="Activity log page. "+(unread?unread+" unread alerts.":"No new alerts.");
+ }
+ speakRaw(txt);
+}
+
+function listenVoice(){
+ playChime("on");
+ const l=$("#lang").value;
+ if(window.AndroidTTS&&AndroidTTS.listen){
+  try{AndroidTTS.listen(l);return}catch(e){}
+ }
+ if(!('webkitSpeechRecognition' in window)&&!('SpeechRecognition' in window)){
+  speakRaw("Voice recognition not supported on this browser.");
+  return;
+ }
+ const SpeechRec=window.SpeechRecognition||window.webkitSpeechRecognition;
+ const rec=new SpeechRec();
+ rec.lang=l;
+ rec.onresult=e=>{
+  const spoken=e.results[0][0].transcript;
+  onVoiceCommand(spoken);
+ };
+ rec.onerror=()=>{speakRaw("Voice listening error. Please try again.");};
+ rec.start();
+}
+
+window.onVoiceCommand=function(cmd){
+ if(!cmd)return;
+ const c=cmd.toLowerCase().trim();
+ log("Voice Command: \""+cmd+"\"", false);
+ playChime("on");
+
+ if(c.includes("irrigation")||c.includes("irrigate")||c.includes("सिंचाई")||c.includes("நீர்ப்பாசனம்")||c.includes("నీటిపారుదల")){
+  if(c.includes("off")||c.includes("stop")||c.includes("बंद")||c.includes("நிறுத்து")||c.includes("ఆపు")){
+   M.irr=false;speakRaw("Irrigation turned off");
+  }else{
+   M.irr=true;speakRaw("Irrigation turned on");
+  }
+ }else if(c.includes("harvest")||c.includes("harvesting")||c.includes("recharge")||c.includes("वर्षा")||c.includes("மழைநீர்")||c.includes("వర్షపు")){
+  if(c.includes("off")||c.includes("stop")||c.includes("बंद")){
+   M.recharge=false;speakRaw("Aquifer recharge valve closed");
+  }else if(c.includes("on")||c.includes("open")||c.includes("चालू")){
+   M.recharge=true;speakRaw("Aquifer recharge valve opened");
+  }else{
+   navTo("harvesting");
+  }
+ }else if(c.includes("pump")||c.includes("tank")||c.includes("पंप")||c.includes("பம்பு")||c.includes("పంప్")){
+  if(c.includes("off")||c.includes("stop")||c.includes("बंद")||c.includes("ஆபு")){
+   M.pump=false;speakRaw("Tank pump stopped");
+  }else{
+   M.pump=true;speakRaw("Tank pump started");
+  }
+ }else if(c.includes("drain")||c.includes("gate")||c.includes("ड्रेनेज")||c.includes("கதவு")||c.includes("గేటు")){
+  if(c.includes("close")||c.includes("stop")||c.includes("बंद")||c.includes("மூடு")){
+   M.drain=false;speakRaw("Sluice gate closed");
+  }else{
+   M.drain=true;speakRaw("Drainage sluice gate opened");
+  }
+ }else if(c.includes("scheme")||c.includes("schemes")||c.includes("योजना")||c.includes("திட்டம்")||c.includes("పథకాలు")){
+  navTo("schemes");speakRaw("Opened government schemes finder");
+ }else if(c.includes("complaint")||c.includes("grievance")||c.includes("शिकायत")||c.includes("புகார்")||c.includes("ఫిర్యాదు")){
+  navTo("grievance");speakRaw("Opened grievance tracker");
+ }else if(c.includes("sos")||c.includes("emergency")||c.includes("आपातकाल")||c.includes("அவசரம்")||c.includes("అత్యవసరం")){
+  triggerSOS();
+ }else if(c.includes("waste")||c.includes("bin")||c.includes("compost")||c.includes("biogas")||c.includes("कचरा")||c.includes("बायोगैस")||c.includes("குப்பை")||c.includes("చెత్త")){
+  if(c.includes("off")||c.includes("stop")||c.includes("बंद")){
+   M.compost=false;speakRaw("Compost aerator stopped");
+  }else if(c.includes("on")||c.includes("start")||c.includes("चालू")){
+   M.compost=true;speakRaw("Compost aerator started");
+  }else{
+   navTo("waste");
+  }
+ }else if(c.includes("light")||c.includes("लाइट")||c.includes("விளக்கு")){
+  if(c.includes("off")||c.includes("stop")||c.includes("बंद")){
+   M.light=false;speakRaw("Streetlights turned off");
+  }else{
+   M.light=true;speakRaw("Streetlights turned on");
+  }
+ }else if(c.includes("repeat")||c.includes("दोहराओ")||c.includes("மீண்டும்")){
+  repeatLastAlert();
+ }else if(c.includes("contrast")||c.includes("कॉन्ट्रास्ट")){
+  toggleHighContrast();speakRaw("High contrast toggled");
+ }else if(c.includes("large")||c.includes("text")||c.includes("बड़ा")){
+  toggleLargeText();speakRaw("Large text toggled");
+ }else if(c.includes("easy")||c.includes("simple")||c.includes("आसान")){
+  toggleEasyMode();speakRaw("Easy mode toggled");
+ }else if(c.includes("status")||c.includes("read")||c.includes("पढ़ो")||c.includes("சொல்")||c.includes("చెప్పు")){
+  readScreen();
+ }else if(c.includes("farm")||c.includes("खेती")){
+  navTo("farm");
+ }else if(c.includes("water")||c.includes("पानी")){
+  navTo("water");
+ }else if(c.includes("drainage")||c.includes("नाली")){
+  navTo("drainage");
+ }else if(c.includes("energy")||c.includes("बिजली")){
+  navTo("energy");
+ }else{
+  speakRaw("Voice command recognized: "+cmd);
+ }
+};
+
+function submitGrievance(){
+ const cat=$("#g_cat").value;
+ const txt=$("#g_text").value.trim() || "Unspecified village issue";
+ ticketCount++;
+ const ticketId="Ticket #"+ticketCount;
+ playChime("on");
+ const li=document.createElement("li");
+ li.innerHTML="<span>"+ticketId+"</span>"+cat+" · "+txt+" · <strong style=\"color:var(--am)\">Submitted to Panchayat</strong>";
+ $("#grievance_list").prepend(li);
+ $("#g_text").value="";
+ S.grievance=1;
+ log("Grievance submitted ("+ticketId+"): "+cat, false);
+ alert("📩 Grievance Registered ("+ticketId+")!\n\nYour complaint has been logged with Gram Panchayat officers.");
+}
+
+function filterSchemes(){
+ const p=$("#sch_profile").value;
+ playChime("on");
+ let html="";
+ if(p==="farmer"){
+  html=`
+  <div class="scheme-card"><h3>🌾 PM-KISAN Samman Nidhi</h3><p>Direct income support of ₹6,000/year in 3 installments for eligible landholding farmer families.</p><button onclick="speakRaw('PM-KISAN provides 6000 rupees per year for farmers. Apply at Gram Panchayat with Aadhaar and land records.')">🔊 How to Apply</button></div>
+  <div class="scheme-card"><h3>🛡️ PM Fasal Bima Yojana</h3><p>Comprehensive crop insurance coverage against drought, flood, and pest damage at minimal premium.</p><button onclick="speakRaw('PM Fasal Bima Yojana covers crop failure due to rain or drought. Register at CSC or local bank before sowing season.')">🔊 How to Apply</button></div>
+  <div class="scheme-card"><h3>🚜 Kisan Credit Card (KCC)</h3><p>Concessional credit and agricultural loans up to ₹3 Lakhs for crops and livestock farming.</p><button onclick="speakRaw('Kisan Credit Card provides low interest farm loans up to 3 lakh rupees. Apply at local bank with land document.')">🔊 How to Apply</button></div>
+  `;
+ }else if(p==="woman"){
+  html=`
+  <div class="scheme-card"><h3>🔥 PM Ujjwala Yojana</h3><p>Free LPG gas connection and cylinder subsidy for women in rural households.</p><button onclick="speakRaw('PM Ujjwala Yojana provides free LPG gas connections for women. Apply at nearest LPG distributor with ration card.')">🔊 How to Apply</button></div>
+  <div class="scheme-card"><h3>👩‍🌾 NRLM Lakhpati Didi</h3><p>Financial assistance and skill training for Women Self-Help Group (SHG) members to start micro-enterprises.</p><button onclick="speakRaw('Lakhpati Didi program provides skill training and financial support for SHG women. Contact Village Resource Person.')">🔊 How to Apply</button></div>
+  `;
+ }else if(p==="senior"){
+  html=`
+  <div class="scheme-card"><h3>🏥 Ayushman Bharat PM-JAY</h3><p>Free health insurance cover up to ₹5 Lakh per family per year for secondary & tertiary hospital care.</p><button onclick="speakRaw('Ayushman Bharat provides 5 lakh rupees free hospital treatment per year. Show Ayushman card at empaneled hospital.')">🔊 How to Apply</button></div>
+  <div class="scheme-card"><h3>👴 Indira Gandhi National Old Age Pension</h3><p>Monthly pension support for senior citizens living below poverty line in rural villages.</p><button onclick="speakRaw('Old Age Pension provides monthly financial assistance for senior citizens. Apply at Gram Panchayat office.')">🔊 How to Apply</button></div>
+  `;
+ }else{
+  html=`
+  <div class="scheme-card"><h3>💼 PM Vishwakarma Yojana</h3><p>End-to-end support, skill training, toolkits, and collateral-free credit for traditional village artisans.</p><button onclick="speakRaw('PM Vishwakarma provides toolkits and low interest loans for artisans like blacksmiths, carpenters and potters. Apply at CSC.')">🔊 How to Apply</button></div>
+  <div class="scheme-card"><h3>🎓 Post-Matric Rural Scholarship</h3><p>Financial scholarship for rural students pursuing higher education and vocational courses.</p><button onclick="speakRaw('Rural scholarship provides education fees for higher studies. Apply on National Scholarship Portal.')">🔊 How to Apply</button></div>
+  `;
+ }
+ $("#schemes_container").innerHTML=html;
+}
+
+function navTo(pageId){
+ playChime("on");
+ const b=$('nav button[data-p="'+pageId+'"]');
+ if(b)b.click();
+}
+
+// Confirmation Step for Manual Infrastructure Actions
+function confirmAction(title, actionFn){
+ playChime("warning");
+ if(confirm("Are you sure you want to perform action: " + title + "?")){
+  actionFn();
+  playChime("on");
+ }
+}
+
+// Physical world simulation (1 second = 6 minutes)
+function sense(){
+ if(S.live)return;
+ const h=S.hour=(S.hour+.1)%24;if(h<.1)day++;
+ const sc=S.sc;S.leak=sc=="leak";
+ S.temp=24+8*Math.sin((h-9)/24*6.283)+(sc=="dry"?6:0)+(sc=="heatwave"?10:0)+rnd(.3);
+ S.rain=sc=="rain"?clamp(S.rain+.1,0,.9):sc=="storm"||sc=="harvest"?clamp(S.rain+.2,0,1):clamp(S.rain-.1,0,1);
+ S.hum=clamp(70-(S.temp-24)*2+S.rain*25+rnd(1),20,98);
+ S.solar=Math.max(0,Math.sin((h-6)/12*Math.PI))*1000*(1-S.rain*.6);
+ S.soil=clamp(S.soil-.15*S.temp/30+(act.irr?1:0)+S.rain*.9,0,100);
+ const before=S.tank,expected=.08+(act.irr?.12:0)-(act.pump?.7:0);
+ S.tank=clamp(S.tank-expected-(S.leak?.3:0),0,100);
+ S.drop=Math.max(0,(before-S.tank)-expected);
+ S.river=clamp(S.river+(sc=="rain"||sc=="storm"?.12:(2-S.river)*.05),0,8);
+
+ // Rooftop & Farm Pond Harvesting simulation
+ S.roof=S.rain*24.5;
+ S.pond=clamp(S.pond + (act.recharge ? 0.8 : 0.2)*S.rain - (act.irr? 0.4 : 0), 10, 100);
+ S.aquifer=clamp(S.aquifer - (act.recharge ? 0.05 : -0.01), 2.0, 30.0);
+ if(act.recharge && S.rain > .2) S.saved_water += Math.round(S.roof * 12);
+
+ // Smart Drainage simulation
+ S.clog=sc=="clog"?clamp(S.clog+1.2,10,95):clamp(S.clog-.2,5,95);
+ const inflow=S.rain*3.5+(act.irr?.4:0)+(sc=="storm"?4.0:0);
+ S.off=inflow;
+ const outflow=(act.drain?3.8:1.0)*(1-S.clog/120);
+ S.drain=clamp(S.drain+inflow-outflow,0,100);
+
+ // Smart Waste Management simulation
+ S.bin=sc=="binfull"?clamp(S.bin+1.5,20,98):clamp(S.bin+.05-(on[8]?1.2:0),10,98);
+ S.methane=sc=="methane"?clamp(S.methane+1.8,10,95):clamp(S.methane+(S.bin>60?.3:0)-(act.compost?1.5:0),5,95);
+ S.ctemp=clamp(38+(act.compost?8:0)+rnd(.4),30,65);
+ S.biogas=Math.round(300+S.bin*2.5+(act.compost?150:0));
+
+ S.disaster=sc=="heatwave"||S.river>6.5?1:0;
+
+ const load=(120+(act.irr?400:0)+(act.pump?500:0)+(act.light?200:0)+(act.drain?300:0)+(act.compost?250:0)+(act.recharge?150:0))*(act.sav?.7:1);S.load=load;
+ S.bat=clamp(S.bat+(S.solar-load)/4000,0,100);
+}
+
+// Spiking neural network: Poisson-encoded sensors -> leaky integrate-and-fire decision neurons
+function snn(){
+ const night=S.hour<6||S.hour>=18;
+ const r=[
+  clamp((CROPS[crop]-S.soil)/15,0,1),
+  clamp((S.temp-30)/10,0,1),
+  S.rain,
+  clamp((40-S.tank)/30,0,1),
+  clamp((S.river-3)/3,0,1),
+  night?.9:0,
+  clamp((40-S.bat)/30,0,1),
+  clamp(S.drop/.3,0,1),
+  clamp((S.drain-35)/30,0,1),   // Drain high sensor
+  clamp((S.clog-40)/30,0,1),    // Drain clogged sensor
+  clamp((S.bin-70)/25,0,1),     // Bin full sensor
+  clamp((S.methane-40)/30,0,1),  // Methane high sensor
+  S.disaster,                    // Disaster risk sensor
+  S.grievance,                   // Grievance pending sensor
+  clamp(S.roof/15,0,1),          // Rooftop rainfall high
+  clamp((60-S.pond)/40,0,1)      // Farm pond storage low
+ ];
+ const sp=r.map(x=>Math.random()<x*.9?1:0),col=[...sp];
+ OUT.forEach((_,j)=>{
+  let i=0;sp.forEach((s,k)=>i+=s*W[j][k]);
+  v[j]=Math.max(-2,v[j]*.8+i);let f=0;if(v[j]>1.5){f=1;v[j]=0}
+  col.push(f);win[j].push(f);if(win[j].length>20)win[j].shift();
+  rate[j]=win[j].reduce((a,b)=>a+b,0)/20;
+  if(rate[j]>.3&&!on[j]){on[j]=true;edge(j,true)}
+  if(rate[j]<.12&&on[j]){on[j]=false;edge(j,false)}
+ });
+ ras.push(col);if(ras.length>120)ras.shift();
+ const n=col.reduce((a,b)=>a+b,0);spikes+=n;sps+=n;steps++;
+ act.irr=M.irr??on[0];act.pump=M.pump??on[1];act.light=M.light??on[3];act.sav=on[4];act.drain=M.drain??on[6];act.compost=M.compost??on[9];act.recharge=M.recharge??on[12];
+}
+
+function draw(){
+ const c=$("#ras"),d=devicePixelRatio||1,w=c.clientWidth,h=c.clientHeight;if(!w)return;
+ if(c.width!=w*d){c.width=w*d;c.height=h*d}
+ const x=c.getContext("2d");x.setTransform(d,0,0,d,0,0);x.clearRect(0,0,w,h);
+ const rows=30,rh=h/rows,cw=w/120;
+ ras.forEach((col,t)=>col.forEach((f,i)=>{if(f){x.fillStyle=i<16?"#5aa8ec":"#46c27f";x.fillRect(t*cw,i*rh+1,Math.max(2,cw-1),rh-2)}}));
+}
+
+const set=(id,t)=>{const e=$("#"+id);if(e)e.textContent=t};
+
+function updateBar(barId, badgeId, p, isWarningHigh){
+ const el=$("#"+barId), bgn=$("#"+badgeId);
+ if(!el)return;
+ const val=clamp(p,0,100);
+ el.style.width=val+"%";
+ const parent=el.closest('.bar');
+ if(parent){
+  parent.setAttribute("aria-valuenow", Math.round(val));
+ }
+ if(bgn){
+  if((isWarningHigh && val>75) || (!isWarningHigh && val<25)){
+   bgn.textContent="✖ Alert";bgn.style.color="var(--rd)";
+  }else if((isWarningHigh && val>50) || (!isWarningHigh && val<45)){
+   bgn.textContent="⚠ Warning";bgn.style.color="var(--am)";
+  }else{
+   bgn.textContent="✔ Safe";bgn.style.color="var(--gr)";
+  }
+ }
+}
+
+const state=(k,j)=>M[k]===null?"AI decides: "+(on[j]?"ON":"OFF"):"Manual: "+(M[k]?"ON":"OFF");
+
+function render(){
+ set("clock",clock());
+ $("#outs").innerHTML=OUT.map((n,j)=>'<div class="row"><span>'+n+'</span><div class="bar'+(j==2||j==5||j==7||j==8||j==10?" rd":"")+'"><i style="width:'+Math.min(100,rate[j]*200)+'%"></i></div><span class="tag'+(on[j]?" on":"")+'">'+(on[j]?"ON":"off")+'</span></div>').join("");
+ set("sps",sps);set("sav",Math.round((1-spikes/(steps*30||1))*100)+"%");sps=0;
+
+ // Active decisions for screen reader canvas label
+ const activeList=OUT.filter((_,j)=>on[j]).join(", ");
+ const rasEl=$("#ras");
+ if(rasEl){
+  rasEl.setAttribute("aria-label", "Neural spiking raster plot. Spikes per sec: "+sps+". Active AI decisions: "+(activeList||"None"));
+ }
+
+ updateBar("b_soil", "g_soil", S.soil, false);
+ set("v_soil",Math.round(S.soil)+"%");
+ set("v_temp",S.temp.toFixed(1)+" °C");set("v_hum",Math.round(S.hum)+"%");set("v_rain",S.rain>.2?"Raining":"None");
+ set("tgt","Target soil moisture for "+crop+": "+CROPS[crop]+"%");
+ set("s_irr",state("irr",0)+" · valve "+(act.irr?"open":"closed"));
+
+ updateBar("b_tank", "g_tank", S.tank, false);
+ set("v_tank",Math.round(S.tank)+"%");
+ set("s_leak",on[5]?"Leak suspected. Water is being lost without use.":"No leak detected.");
+ updateBar("b_river", "g_river", S.river/8*100, true);
+ set("v_river",S.river.toFixed(1)+" m");
+ set("v_pipe",on[5]?"Leak":"Healthy");set("s_pump",state("pump",1));
+
+ // Rainwater Harvesting rendering
+ set("v_roof", S.roof.toFixed(1) + " L/min");
+ updateBar("b_pond", "g_pond", S.pond, false);
+ set("v_pond", Math.round(S.pond) + "%");
+ set("v_aquifer", S.aquifer.toFixed(1) + " m");
+ set("v_saved_water", S.saved_water.toLocaleString() + " L");
+ set("s_recharge", state("recharge", 12) + " · valve " + (act.recharge ? "OPEN (Recharging Aquifer)" : "closed"));
+
+ // Drainage status rendering
+ updateBar("b_drain", "g_drain", S.drain, true);
+ set("v_drain",Math.round(S.drain)+"%");
+ updateBar("b_clog", "g_clog", S.clog, true);
+ set("v_clog",Math.round(S.clog)+"%");
+ set("v_off",S.off.toFixed(1)+" L/s");
+ set("v_div",act.drain && S.drain > 30 ? "Active (Ponds filling)" : "Standby");
+ set("s_drain",state("drain",6)+" · sluice gate "+(act.drain?"OPEN":"closed"));
+
+ // Waste Management status rendering
+ updateBar("b_bin", "g_bin", S.bin, true);
+ set("v_bin",Math.round(S.bin)+"%");
+ updateBar("b_methane", "g_methane", S.methane, true);
+ set("v_methane",Math.round(S.methane)+"%");
+ set("v_ctemp",Math.round(S.ctemp)+" °C");
+ set("v_biogas",S.biogas+" L/day");
+ set("s_compost",state("compost",9)+" · aerator "+(act.compost?"mixing":"paused"));
+
+ set("v_sol",Math.round(S.solar)+" W");set("v_load",Math.round(S.load||0)+" W");
+ updateBar("b_bat", "g_bat", S.bat, false);
+ set("v_bat",Math.round(S.bat)+"%");
+ set("s_sav",on[4]?"Energy saver is on. Load reduced by 30%.":"Battery is healthy.");
+ set("s_light",state("light",3));
+}
+
+// UI wiring
+$$(".seg").forEach(s=>{s.innerHTML='<button data-v="auto" class="on" aria-label="Auto mode">Auto</button><button data-v="on" aria-label="Manual On mode">On</button><button data-v="off" aria-label="Manual Off mode">Off</button>';
+ s.onclick=e=>{
+  const b=e.target.closest("button");if(!b)return;
+  const k=s.dataset.k,val=b.dataset.v;
+  const actionName=(k=="irr"?"Irrigation valve":k=="pump"?"Tank pump":k=="drain"?"Drainage sluice gate":k=="compost"?"Compost aerator":k=="recharge"?"Aquifer recharge valve":"Streetlights");
+  confirmAction("Set " + actionName + " to " + val, ()=>{
+   M[k]=val=="auto"?null:val=="on";
+   [...s.children].forEach(x=>x.classList.toggle("on",x==b));
+   log(actionName+" set to "+val+".");
+  });
+ }});
+
+$("#nav").onclick=e=>{
+ const b=e.target.closest("button");if(!b)return;
+ playChime("on");
+ $$("nav button").forEach(x=>{
+  const isOn=(x==b);
+  x.classList.toggle("on",isOn);
+  if(isOn)x.setAttribute("aria-current", "page"); else x.removeAttribute("aria-current");
+ });
+ $$(".pg").forEach(p=>p.classList.toggle("on",p.id==b.dataset.p));
+ if(b.dataset.p=="alerts"){unread=0;$("#bd").hidden=true}
+ scrollTo(0,0);draw();
+};
+
+$("#sc").onclick=e=>{const b=e.target.closest("button");if(!b)return;playChime("on");S.sc=b.dataset.s;[...$("#sc").children].forEach(x=>x.classList.toggle("on",x==b));if(S.sc=="dry")S.soil=Math.min(S.soil,30);if(S.sc=="clog")S.clog=85;if(S.sc=="storm")S.drain=75;if(S.sc=="binfull")S.bin=90;if(S.sc=="heatwave")S.temp=42;log("Situation: "+b.textContent)};
+
+$("#crop").onchange=e=>{crop=e.target.value;playChime("on");log("Crop changed to "+crop+".")};
+
+log("NeuroGram AI Ecosystem started. All Systems, Harvesting & Governance connected.");
+setInterval(sense,1000);setInterval(snn,100);setInterval(draw,100);setInterval(render,500);
+</script>
+</body>
+</html>
